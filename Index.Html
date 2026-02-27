@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Sai R.O. System & Electrical Works - Service Enquiry</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+    margin:0;
+    font-family: 'Segoe UI', sans-serif;
+    background:linear-gradient(135deg,#0f172a,#1e3a8a);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+.container{
+    background:#ffffff;
+    width:95%;
+    max-width:600px;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.3);
+}
+h1{
+    text-align:center;
+    color:#1e3a8a;
+    margin-bottom:5px;
+}
+.tagline{
+    text-align:center;
+    font-size:14px;
+    color:#555;
+    margin-bottom:20px;
+}
+input, textarea, select{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:14px;
+}
+button{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:none;
+    border-radius:8px;
+    font-size:15px;
+    cursor:pointer;
+    background:#16a34a;
+    color:#fff;
+    transition:0.3s;
+}
+button:hover{
+    background:#15803d;
+}
+.verifyBtn{
+    background:#1e3a8a;
+}
+.verifyBtn:hover{
+    background:#142f6e;
+}
+.hidden{display:none;}
+.success{color:green;font-weight:bold;}
+.error{color:red;font-weight:bold;}
+.footer{
+    text-align:center;
+    margin-top:15px;
+    font-size:12px;
+    color:#777;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Sai R.O. System & Electrical Works</h1>
+<div class="tagline">Your Comfort is Our Goal</div>
+
+<!-- WARRANTY VERIFICATION -->
+<h3>Enter Warranty Code</h3>
+<input type="text" id="warrantyCode" placeholder="Format: SRS-12-ABC123">
+<button class="verifyBtn" onclick="validateCode()">Verify Code</button>
+<p id="codeMessage"></p>
+
+<!-- SERVICE FORM -->
+<div id="serviceForm" class="hidden">
+
+<input type="text" id="name" placeholder="Full Name" required>
+<input type="text" id="mobile" placeholder="Mobile Number" required>
+<input type="text" id="altMobile" placeholder="Alternate Number eith Name">
+<input type="text" id="address" placeholder="Full Address" required>
+<input type="text" id="product" placeholder="Product" 
+<textarea id="problem" rows="4" placeholder="Describe Your Problem" required></textarea>
+
+<button onclick="sendWhatsApp()">Submit Enquiry</button>
+
+</div>
+
+<div class="footer">
+📞 9999314428 | 9599518914
+</div>
+
+</div>
+
+<script>
+
+// WARRANTY CODE VALIDATION
+function validateCode(){
+    const code = document.getElementById("warrantyCode").value.trim();
+    const pattern = /^SRS-\d{1,2}-[A-Z0-9]{6}$/;
+
+    if(pattern.test(code)){
+        document.getElementById("codeMessage").innerHTML =
+        "<span class='success'>Warranty Code Verified ✅</span>";
+        document.getElementById("serviceForm").classList.remove("hidden");
+    } else {
+        document.getElementById("codeMessage").innerHTML =
+        "<span class='error'>Invalid Warranty Code Format ❌</span>";
+        document.getElementById("serviceForm").classList.add("hidden");
+    }
+}
+
+// SEND WHATSAPP
+function sendWhatsApp(){
+
+    const code = document.getElementById("warrantyCode").value;
+    const name = document.getElementById("name").value;
+    const mobile = document.getElementById("mobile").value;
+    const altMobile = document.getElementById("altMobile").value;
+    const address = document.getElementById("address").value;
+    const product = document.getElementById("product").value;
+    const problem = document.getElementById("problem").value;
+
+    if(!name || !mobile || !address || !product || !problem){
+        alert("Please fill all required fields");
+        return;
+    }
+
+    if(mobile.length !== 10){
+        alert("Enter valid 10 digit mobile number");
+        return;
+    }
+
+    const message = encodeURIComponent(
+    "🛠 New Service Enquiry\n\n" +
+    "Warranty Code: " + code + "\n" +
+    "Name: " + name + "\n" +
+    "Mobile: " + mobile + "\n" +
+    "Alternate: " + altMobile + "\n" +
+    "Address: " + address + "\n" +
+    "Product: " + product + "\n" +
+    "Problem: " + problem
+    );
+
+    const phoneNumber = "919999314428";
+
+    window.open("https://wa.me/" + phoneNumber + "?text=" + message, "_blank");
+}
+
+</script>
+
+</body>
+</html>
